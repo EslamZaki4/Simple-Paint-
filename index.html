@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pinarest</title>
+    <style>
+        canvas {
+            border: 5px double tomato;
+            margin-top: 50px;
+           
+        }
+        body{
+  background-color: rgb(228, 72, 72);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="800" height="600" style="margin-left:300px;"></canvas>
+
+    <script>
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext('2d');
+        var isDrawing = false;
+        var eraseMode = false;
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            eraseMode = e.button === 2; // 
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) { }
+            else {
+                const x = e.clientX - canvas.getBoundingClientRect().left;
+                const y = e.clientY - canvas.getBoundingClientRect().top;
+
+                if (eraseMode) {
+                    ctx.clearRect(x, y, 30, 30); // 
+                } else {
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    ctx.strokeStyle="wheat"
+                }
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDrawing = false;
+            ctx.closePath();
+        });
+
+        canvas.addEventListener('contextmenu', (e) => {
+            e.preventDefault(); // 
+        });
+    </script>
+</body>
+
+</html>
